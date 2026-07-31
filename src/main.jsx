@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import amazoniaBanner from '../assets/amazonia-banner.png';
+import casaElVergel from '../assets/casa-el-vergel.png';
 import {
   ArrowLeft, ArrowRight, Bath, BedDouble, Bot, Building2, Camera, Check,
   ChevronDown, ChevronLeft, ChevronRight, CircleDollarSign, FileCheck2,
@@ -10,6 +12,17 @@ import {
   SlidersHorizontal, Sparkles, Sun, Trees, Volume2, VolumeX, X,
 } from 'lucide-react';
 import './styles.css';
+
+const BASE_URL = import.meta.env.BASE_URL;
+const images = { 'amazonia-banner.png': amazoniaBanner, 'casa-el-vergel.png': casaElVergel };
+const asset = (name) => images[name];
+const pageUrl = (path = '/') => `${BASE_URL}${path.replace(/^\//, '')}`;
+const currentPage = () => {
+  const relative = window.location.pathname.startsWith(BASE_URL)
+    ? window.location.pathname.slice(BASE_URL.length)
+    : window.location.pathname.replace(/^\//, '');
+  return `/${relative}`.replace(/\/+$/, '') || '/';
+};
 
 const copy = {
   es: {
@@ -61,25 +74,25 @@ const copy = {
 };
 
 const properties = [
-  { id: 1, type: 'Casa', badge: 'Destacada', title: 'Casa familiar en El Vergel', titleEn: 'Family home in El Vergel', location: 'Macas · Morona Santiago', province: 'Morona Santiago', canton: 'Morona', parish: 'Macas', price: '$ 78.000', area: '320 m²', areaValue: 320, beds: '3', baths: '2', image: '/assets/casa-el-vergel.png', position: 'center 48%' },
-  { id: 2, type: 'Terreno', badge: 'Nuevo', title: 'Terreno con entorno natural', titleEn: 'Land with natural surroundings', location: 'Proaño · Morona Santiago', province: 'Morona Santiago', canton: 'Morona', parish: 'Proaño', price: '$ 32.500', area: '1.250 m²', areaValue: 1250, image: '/assets/amazonia-banner.png', position: 'left center' },
-  { id: 3, type: 'Lote', badge: 'Oportunidad', title: 'Lote urbano con acceso vial', titleEn: 'Urban lot with road access', location: 'Macas · Sector urbano', province: 'Morona Santiago', canton: 'Morona', parish: 'Macas', price: '$ 24.900', area: '280 m²', areaValue: 280, image: '/assets/casa-el-vergel.png', position: 'center 62%' },
-  { id: 4, type: 'Finca', badge: 'Exclusiva', title: 'Finca junto al paisaje amazónico', titleEn: 'Farm by the Amazon landscape', location: 'Huambi · Morona Santiago', province: 'Morona Santiago', canton: 'Sucúa', parish: 'Huambi', price: '$ 85.000', area: '2.100 m²', areaValue: 2100, image: '/assets/amazonia-banner.png', position: 'right center' },
-  { id: 5, type: 'Terreno', badge: 'Nuevo', title: 'Terreno natural cerca de Puyo', titleEn: 'Natural land near Puyo', location: 'Puyo · Pastaza', province: 'Pastaza', canton: 'Pastaza', parish: 'Puyo', price: '$ 39.500', area: '980 m²', areaValue: 980, image: '/assets/amazonia-banner.png', position: 'center center' },
-  { id: 6, type: 'Lote', badge: 'Disponible', title: 'Lote residencial en Shell', titleEn: 'Residential lot in Shell', location: 'Shell · Pastaza', province: 'Pastaza', canton: 'Mera', parish: 'Shell', price: '$ 19.800', area: '450 m²', areaValue: 450, image: '/assets/casa-el-vergel.png', position: 'center 68%' },
+  { id: 1, type: 'Casa', badge: 'Destacada', title: 'Casa familiar en El Vergel', titleEn: 'Family home in El Vergel', location: 'Macas · Morona Santiago', province: 'Morona Santiago', canton: 'Morona', parish: 'Macas', price: '$ 78.000', area: '320 m²', areaValue: 320, beds: '3', baths: '2', image: asset('casa-el-vergel.png'), position: 'center 48%' },
+  { id: 2, type: 'Terreno', badge: 'Nuevo', title: 'Terreno con entorno natural', titleEn: 'Land with natural surroundings', location: 'Proaño · Morona Santiago', province: 'Morona Santiago', canton: 'Morona', parish: 'Proaño', price: '$ 32.500', area: '1.250 m²', areaValue: 1250, image: asset('amazonia-banner.png'), position: 'left center' },
+  { id: 3, type: 'Lote', badge: 'Oportunidad', title: 'Lote urbano con acceso vial', titleEn: 'Urban lot with road access', location: 'Macas · Sector urbano', province: 'Morona Santiago', canton: 'Morona', parish: 'Macas', price: '$ 24.900', area: '280 m²', areaValue: 280, image: asset('casa-el-vergel.png'), position: 'center 62%' },
+  { id: 4, type: 'Finca', badge: 'Exclusiva', title: 'Finca junto al paisaje amazónico', titleEn: 'Farm by the Amazon landscape', location: 'Huambi · Morona Santiago', province: 'Morona Santiago', canton: 'Sucúa', parish: 'Huambi', price: '$ 85.000', area: '2.100 m²', areaValue: 2100, image: asset('amazonia-banner.png'), position: 'right center' },
+  { id: 5, type: 'Terreno', badge: 'Nuevo', title: 'Terreno natural cerca de Puyo', titleEn: 'Natural land near Puyo', location: 'Puyo · Pastaza', province: 'Pastaza', canton: 'Pastaza', parish: 'Puyo', price: '$ 39.500', area: '980 m²', areaValue: 980, image: asset('amazonia-banner.png'), position: 'center center' },
+  { id: 6, type: 'Lote', badge: 'Disponible', title: 'Lote residencial en Shell', titleEn: 'Residential lot in Shell', location: 'Shell · Pastaza', province: 'Pastaza', canton: 'Mera', parish: 'Shell', price: '$ 19.800', area: '450 m²', areaValue: 450, image: asset('casa-el-vergel.png'), position: 'center 68%' },
 ];
 
 const propertyMedia = [
-  { type: 'image', src: '/assets/casa-el-vergel.png', position: 'center 48%' },
-  { type: 'image', src: '/assets/casa-el-vergel.png', position: 'center 72%' },
-  { type: 'video', src: '/assets/casa-el-vergel.png', position: 'center 58%' },
-  { type: 'image', src: '/assets/amazonia-banner.png', position: 'left center' },
+  { type: 'image', src: asset('casa-el-vergel.png'), position: 'center 48%' },
+  { type: 'image', src: asset('casa-el-vergel.png'), position: 'center 72%' },
+  { type: 'video', src: asset('casa-el-vergel.png'), position: 'center 58%' },
+  { type: 'image', src: asset('amazonia-banner.png'), position: 'left center' },
 ];
 
 const soldCases = [
-  { id: 1, title: 'Casa familiar en El Vergel', titleEn: 'Family home in El Vergel', location: 'Macas · Morona Santiago', area: '320 m²', date: 'Marzo 2026', image: '/assets/casa-el-vergel.png', position: 'center 48%', client: 'Familia Andrade' },
-  { id: 2, title: 'Terreno natural en Proaño', titleEn: 'Natural land in Proaño', location: 'Proaño · Morona Santiago', area: '1.250 m²', date: 'Enero 2026', image: '/assets/amazonia-banner.png', position: 'left center', client: 'Familia López' },
-  { id: 3, title: 'Lote residencial en Macas', titleEn: 'Residential lot in Macas', location: 'Macas · Morona Santiago', area: '450 m²', date: 'Noviembre 2025', image: '/assets/casa-el-vergel.png', position: 'center 68%', client: 'Familia Cárdenas' },
+  { id: 1, title: 'Casa familiar en El Vergel', titleEn: 'Family home in El Vergel', location: 'Macas · Morona Santiago', area: '320 m²', date: 'Marzo 2026', image: asset('casa-el-vergel.png'), position: 'center 48%', client: 'Familia Andrade' },
+  { id: 2, title: 'Terreno natural en Proaño', titleEn: 'Natural land in Proaño', location: 'Proaño · Morona Santiago', area: '1.250 m²', date: 'Enero 2026', image: asset('amazonia-banner.png'), position: 'left center', client: 'Familia López' },
+  { id: 3, title: 'Lote residencial en Macas', titleEn: 'Residential lot in Macas', location: 'Macas · Morona Santiago', area: '450 m²', date: 'Noviembre 2025', image: asset('casa-el-vergel.png'), position: 'center 68%', client: 'Familia Cárdenas' },
 ];
 
 function useLanguage() {
@@ -93,21 +106,21 @@ function useLanguage() {
 }
 
 function Brand() {
-  return <a className="brand" href="/" aria-label="Amazonía EC Propiedades"><span className="brand-mark"><Trees size={22}/></span><span><strong>AMAZONÍA</strong><small>EC PROPIEDADES</small></span></a>;
+  return <a className="brand" href={pageUrl('/')} aria-label="Amazonía EC Propiedades"><span className="brand-mark"><Trees size={22}/></span><span><strong>AMAZONÍA</strong><small>EC PROPIEDADES</small></span></a>;
 }
 
 function Header({ t, lang, toggle, theme, toggleTheme }) {
   const [open, setOpen] = useState(false);
-  const path = window.location.pathname;
+  const path = currentPage();
   const links = [[t.nav.home, '/'], [t.nav.about, '/#nosotros'], [t.nav.properties, '/propiedades'], [t.nav.success, '/casos-de-exito'], [t.nav.sell, '/vende-con-nosotros']];
   return <>
-    <header className="site-header"><div className="container nav-wrap"><Brand/><nav className="desktop-nav">{links.map(([label, href]) => <a className={path === href ? 'active' : ''} href={href} key={href}>{label}</a>)}</nav><button className="theme-toggle" onClick={toggleTheme} aria-label={theme === 'light' ? t.dark : t.light} title={theme === 'light' ? t.dark : t.light}>{theme === 'light' ? <Moon size={16}/> : <Sun size={16}/>}</button><button className="language-toggle" onClick={toggle} aria-label="Cambiar idioma"><Languages size={16}/><span>{lang === 'es' ? 'EN' : 'ES'}</span></button><a className="button button-small desktop-contact" href="https://wa.me/593000000000">{t.nav.contact}<ArrowRight size={16}/></a><button className="menu-button" onClick={() => setOpen(true)} aria-label="Abrir menú"><Menu/></button></div></header>
-    {open && <div className="mobile-drawer"><div className="drawer-top"><Brand/><button onClick={() => setOpen(false)}><X/></button></div><nav>{links.map(([label, href]) => <a href={href} key={href}>{label}<ArrowRight size={18}/></a>)}</nav><div className="drawer-preferences"><button className="language-toggle mobile-language" onClick={toggle}><Languages/>{lang === 'es' ? 'English' : 'Español'}</button><button className="language-toggle mobile-language" onClick={toggleTheme}>{theme === 'light' ? <Moon/> : <Sun/>}{theme === 'light' ? t.dark : t.light}</button></div></div>}
+    <header className="site-header"><div className="container nav-wrap"><Brand/><nav className="desktop-nav">{links.map(([label, href]) => <a className={path === href.split('#')[0] ? 'active' : ''} href={pageUrl(href)} key={href}>{label}</a>)}</nav><button className="theme-toggle" onClick={toggleTheme} aria-label={theme === 'light' ? t.dark : t.light} title={theme === 'light' ? t.dark : t.light}>{theme === 'light' ? <Moon size={16}/> : <Sun size={16}/>}</button><button className="language-toggle" onClick={toggle} aria-label="Cambiar idioma"><Languages size={16}/><span>{lang === 'es' ? 'EN' : 'ES'}</span></button><a className="button button-small desktop-contact" href="https://wa.me/593000000000">{t.nav.contact}<ArrowRight size={16}/></a><button className="menu-button" onClick={() => setOpen(true)} aria-label="Abrir menú"><Menu/></button></div></header>
+    {open && <div className="mobile-drawer"><div className="drawer-top"><Brand/><button onClick={() => setOpen(false)}><X/></button></div><nav>{links.map(([label, href]) => <a href={pageUrl(href)} key={href}>{label}<ArrowRight size={18}/></a>)}</nav><div className="drawer-preferences"><button className="language-toggle mobile-language" onClick={toggle}><Languages/>{lang === 'es' ? 'English' : 'Español'}</button><button className="language-toggle mobile-language" onClick={toggleTheme}>{theme === 'light' ? <Moon/> : <Sun/>}{theme === 'light' ? t.dark : t.light}</button></div></div>}
   </>;
 }
 
 function Footer({ t }) {
-  return <footer><div className="container footer-main"><div className="footer-brand"><Brand/><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Una nueva forma de encontrar tu lugar.</p></div><div><strong>{t.nav.home}</strong><a href="/#nosotros">{t.nav.about}</a><a href="/propiedades">{t.nav.properties}</a></div><div><strong>{t.nav.success}</strong><a href="/casos-de-exito">{t.nav.success}</a><a href="/vende-con-nosotros">{t.nav.sell}</a></div><div><strong>Amazonía EC</strong><span><MapPin size={16}/> Macas, Morona Santiago</span><span><Phone size={16}/> +593 000 000 000</span></div></div><div className="container footer-bottom"><span>© 2026 Amazonía EC Propiedades · Demo conceptual</span><span>Más que propiedades, un legado.</span></div></footer>;
+  return <footer><div className="container footer-main"><div className="footer-brand"><Brand/><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Una nueva forma de encontrar tu lugar.</p></div><div><strong>{t.nav.home}</strong><a href={pageUrl('/#nosotros')}>{t.nav.about}</a><a href={pageUrl('/propiedades')}>{t.nav.properties}</a></div><div><strong>{t.nav.success}</strong><a href={pageUrl('/casos-de-exito')}>{t.nav.success}</a><a href={pageUrl('/vende-con-nosotros')}>{t.nav.sell}</a></div><div><strong>Amazonía EC</strong><span><MapPin size={16}/> Macas, Morona Santiago</span><span><Phone size={16}/> +593 000 000 000</span></div></div><div className="container footer-bottom"><span>© 2026 Amazonía EC Propiedades · Demo conceptual</span><span>Más que propiedades, un legado.</span></div></footer>;
 }
 
 function Assistants({ t, lang }) {
@@ -172,9 +185,9 @@ function PageShell({ children, language }) {
 
 function HomePage({ t }) {
   return <>
-    <section className="hero home-hero"><div className="hero-glow"/><div className="container hero-content"><div className="hero-copy"><span className="eyebrow"><span/>{t.heroKicker}</span><h1>{t.heroTitle}</h1><p>{t.heroText}</p><div className="hero-actions"><a className="button button-gold" href="/propiedades">{t.explore}<ArrowRight size={18}/></a><a className="text-link" href="#nosotros"><span className="play"><Play size={15} fill="currentColor"/></span>{t.story}</a></div><div className="hero-proof"><div><strong>+120</strong><span>{t.families}</span></div><i/><div><strong>8 años</strong><span>{t.years}</span></div></div></div><div className="hero-visual"><div className="hero-image-frame"><img src="/assets/amazonia-banner.png" alt="Amazonía EC Propiedades"/></div><div className="floating-card"><span><ShieldCheck/></span><div><strong>{t.legal}</strong><small>Lorem ipsum dolor</small></div><Check/></div></div></div></section>
-    <section className="home-links"><div className="container home-link-grid"><a href="/propiedades"><LandPlot/><span><small>01</small><strong>{t.nav.properties}</strong></span><ArrowRight/></a><a href="/casos-de-exito"><Sparkles/><span><small>02</small><strong>{t.nav.success}</strong></span><ArrowRight/></a><a href="/vende-con-nosotros"><CircleDollarSign/><span><small>03</small><strong>{t.nav.sell}</strong></span><ArrowRight/></a></div></section>
-    <section id="nosotros" className="section about-section"><div className="container about-grid"><div className="about-collage"><div className="about-main"><img src="/assets/casa-el-vergel.png" alt="Propiedad en Macas"/></div><div className="about-small"><img src="/assets/amazonia-banner.png" alt="Morona Santiago"/></div><div className="experience-seal"><strong>8</strong><span>Años de<br/>experiencia</span></div></div><div className="about-copy"><span className="eyebrow dark"><span/>{t.aboutKicker}</span><h2>{t.aboutTitle}</h2><p className="lead">{t.aboutLead}</p><p>{t.aboutText}</p><div className="values"><div><span><ShieldCheck/></span><div><strong>{t.legal}</strong><small>Lorem ipsum dolor sit amet.</small></div></div><div><span><Trees/></span><div><strong>{t.earth}</strong><small>Lorem ipsum dolor sit amet.</small></div></div></div><a className="inline-link" href="/propiedades">{t.discover}<ArrowRight/></a></div></div></section>
+    <section className="hero home-hero"><div className="hero-glow"/><div className="container hero-content"><div className="hero-copy"><span className="eyebrow"><span/>{t.heroKicker}</span><h1>{t.heroTitle}</h1><p>{t.heroText}</p><div className="hero-actions"><a className="button button-gold" href={pageUrl('/propiedades')}>{t.explore}<ArrowRight size={18}/></a><a className="text-link" href="#nosotros"><span className="play"><Play size={15} fill="currentColor"/></span>{t.story}</a></div><div className="hero-proof"><div><strong>+120</strong><span>{t.families}</span></div><i/><div><strong>8 años</strong><span>{t.years}</span></div></div></div><div className="hero-visual"><div className="hero-image-frame"><img src={asset('amazonia-banner.png')} alt="Amazonía EC Propiedades"/></div><div className="floating-card"><span><ShieldCheck/></span><div><strong>{t.legal}</strong><small>Lorem ipsum dolor</small></div><Check/></div></div></div></section>
+    <section className="home-links"><div className="container home-link-grid"><a href={pageUrl('/propiedades')}><LandPlot/><span><small>01</small><strong>{t.nav.properties}</strong></span><ArrowRight/></a><a href={pageUrl('/casos-de-exito')}><Sparkles/><span><small>02</small><strong>{t.nav.success}</strong></span><ArrowRight/></a><a href={pageUrl('/vende-con-nosotros')}><CircleDollarSign/><span><small>03</small><strong>{t.nav.sell}</strong></span><ArrowRight/></a></div></section>
+    <section id="nosotros" className="section about-section"><div className="container about-grid"><div className="about-collage"><div className="about-main"><img src={asset('casa-el-vergel.png')} alt="Propiedad en Macas"/></div><div className="about-small"><img src={asset('amazonia-banner.png')} alt="Morona Santiago"/></div><div className="experience-seal"><strong>8</strong><span>Años de<br/>experiencia</span></div></div><div className="about-copy"><span className="eyebrow dark"><span/>{t.aboutKicker}</span><h2>{t.aboutTitle}</h2><p className="lead">{t.aboutLead}</p><p>{t.aboutText}</p><div className="values"><div><span><ShieldCheck/></span><div><strong>{t.legal}</strong><small>Lorem ipsum dolor sit amet.</small></div></div><div><span><Trees/></span><div><strong>{t.earth}</strong><small>Lorem ipsum dolor sit amet.</small></div></div></div><a className="inline-link" href={pageUrl('/propiedades')}>{t.discover}<ArrowRight/></a></div></div></section>
     <ContactStrip t={t}/>
   </>;
 }
@@ -192,8 +205,8 @@ function VirtualTour({ property, t, compact = false }) {
   const player = useRef(null);
   const scenes = [
     { src: property.image, label: 'Vista principal' },
-    { src: '/assets/casa-el-vergel.png', label: 'Exterior' },
-    { src: '/assets/amazonia-banner.png', label: 'Entorno' },
+    { src: asset('casa-el-vergel.png'), label: 'Exterior' },
+    { src: asset('amazonia-banner.png'), label: 'Entorno' },
   ];
   useEffect(() => {
     if (!open) return;
@@ -306,7 +319,7 @@ function SoldCaseCard({ item, t, lang }) {
   const [open, setOpen] = useState(false);
   const [photo, setPhoto] = useState(0);
   const title = lang === 'es' ? item.title : item.titleEn;
-  const photos = [{src:item.image,label:t.visit},{src:'/assets/casa-el-vergel.png',label:t.review},{src:'/assets/amazonia-banner.png',label:t.notary},{src:item.image,label:t.delivery}];
+  const photos = [{src:item.image,label:t.visit},{src:asset('casa-el-vergel.png'),label:t.review},{src:asset('amazonia-banner.png'),label:t.notary},{src:item.image,label:t.delivery}];
   const stages = [[MapPin,t.visit],[FileCheck2,t.review],[Building2,t.notary],[Check,t.delivery]];
   useEffect(() => {
     if (!open) return;
@@ -323,7 +336,7 @@ function SuccessPage({ t, lang }) {
 }
 
 function SellPage({ t }) {
-  return <><section className="sell-page-hero"><div className="sell-page-image"><img src="/assets/amazonia-banner.png" alt="Amazonía ecuatoriana"/></div><div className="sell-page-copy"><span className="eyebrow"><span/>{t.sellKicker}</span><h1>{t.sellTitle}</h1><p>{t.sellText}</p><a className="button button-gold" href="https://wa.me/593000000000">{t.sellCta}<ArrowRight/></a></div></section><section className="sell-benefits"><div className="container"><div><span><CircleDollarSign/></span><h3>{t.valuation}</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div><div><span><Camera/></span><h3>{t.promotion}</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div><div><span><ShieldCheck/></span><h3>{t.support}</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div></div></section><ContactStrip t={t}/></>;
+  return <><section className="sell-page-hero"><div className="sell-page-image"><img src={asset('amazonia-banner.png')} alt="Amazonía ecuatoriana"/></div><div className="sell-page-copy"><span className="eyebrow"><span/>{t.sellKicker}</span><h1>{t.sellTitle}</h1><p>{t.sellText}</p><a className="button button-gold" href="https://wa.me/593000000000">{t.sellCta}<ArrowRight/></a></div></section><section className="sell-benefits"><div className="container"><div><span><CircleDollarSign/></span><h3>{t.valuation}</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div><div><span><Camera/></span><h3>{t.promotion}</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div><div><span><ShieldCheck/></span><h3>{t.support}</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div></div></section><ContactStrip t={t}/></>;
 }
 
 function ContactStrip({ t }) {
@@ -332,7 +345,17 @@ function ContactStrip({ t }) {
 
 function App() {
   const language = useLanguage();
-  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  useEffect(() => {
+    const redirectInternalLink = (event) => {
+      const link = event.target.closest('a[href^="/"]');
+      if (!link) return;
+      event.preventDefault();
+      window.location.href = pageUrl(link.getAttribute('href'));
+    };
+    document.addEventListener('click', redirectInternalLink);
+    return () => document.removeEventListener('click', redirectInternalLink);
+  }, []);
+  const path = currentPage();
   let page;
   const detailMatch = path.match(/^\/propiedades\/(\d+)$/);
   if (detailMatch) page = <PropertyDetailPage t={language.t} lang={language.lang} id={detailMatch[1]}/>;
