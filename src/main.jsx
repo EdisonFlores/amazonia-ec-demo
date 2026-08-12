@@ -46,7 +46,7 @@ const copy = {
     sellText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nuestro equipo te acompaña desde la valoración hasta la firma.',
     valuation: 'Valoración profesional y transparente', promotion: 'Fotografía y promoción estratégica', support: 'Acompañamiento legal de principio a fin', sellCta: 'Quiero vender mi propiedad',
     contactTitle: 'Hablemos de tu próximo proyecto.', whatsapp: 'Escríbenos por WhatsApp',
-    chatTitle: 'AmazoniaPropiedades EC', chatStatus: 'Demo · Respuestas estáticas', chatHello: '¡Hola! ¿Qué tipo de propiedad estás buscando?', chatHint: 'Los filtros automáticos se activarán en la versión final.', chatPlaceholder: 'Escribe tu consulta...', voice: 'Lectura por voz', voiceHint: 'Actívala y mueve el cursor sobre el contenido.', voiceOn: 'Lectura activada', voiceOff: 'Lectura desactivada', light: 'Modo claro', dark: 'Modo oscuro', expand: 'Ampliar imagen', virtualTour: 'Galería de imágenes 360°', dragTour: 'Arrastra para explorar la imagen en 360°', close: 'Cerrar', filters: 'Filtros', propertyType: 'Tipo de propiedad', lot: 'Lote', farm: 'Finca', size: 'Tamaño', minimum: 'Mínimo', maximum: 'Máximo', province: 'Provincia', canton: 'Cantón', parish: 'Parroquia', any: 'Todas', clearFilters: 'Limpiar filtros', applyFilters: 'Aplicar filtros', noResults: 'No encontramos propiedades con estos filtros.',
+    chatTitle: 'Amazonia Propiedades EC', chatStatus: 'Demo · Respuestas estáticas', chatHello: '¡Hola! ¿Qué tipo de propiedad estás buscando?', chatHint: 'Los filtros automáticos se activarán en la versión final.', chatPlaceholder: 'Escribe tu consulta...', voice: 'Lectura por voz', voiceHint: 'Actívala y mueve el cursor sobre el contenido.', voiceOn: 'Lectura activada', voiceOff: 'Lectura desactivada', light: 'Modo claro', dark: 'Modo oscuro', expand: 'Ampliar imagen', virtualTour: 'Galería de imágenes 360°', dragTour: 'Arrastra para explorar la imagen en 360°', close: 'Cerrar', filters: 'Filtros', propertyType: 'Tipo de propiedad', lot: 'Lote', farm: 'Finca', size: 'Tamaño', minimum: 'Mínimo', maximum: 'Máximo', province: 'Provincia', canton: 'Cantón', parish: 'Parroquia', any: 'Todas', clearFilters: 'Limpiar filtros', applyFilters: 'Aplicar filtros', noResults: 'No encontramos propiedades con estos filtros.',
   },
   en: {
     nav: { home: 'Home', about: 'About us', properties: 'Properties', success: 'Success stories', sell: 'Sell with us', contact: 'Contact us' },
@@ -69,7 +69,7 @@ const copy = {
     sellText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Our team supports you from valuation through signing.',
     valuation: 'Professional and transparent valuation', promotion: 'Strategic photography and promotion', support: 'End-to-end legal guidance', sellCta: 'I want to sell my property',
     contactTitle: 'Let’s talk about your next project.', whatsapp: 'Message us on WhatsApp',
-    chatTitle: 'AmazoniaPropiedades EC', chatStatus: 'Demo · Static responses', chatHello: 'Hello! What kind of property are you looking for?', chatHint: 'Automatic filters will be enabled in the final version.', chatPlaceholder: 'Type your question...', voice: 'Voice reading', voiceHint: 'Enable it and move the cursor over the content.', voiceOn: 'Reading enabled', voiceOff: 'Reading disabled', light: 'Light mode', dark: 'Dark mode', expand: 'Expand image', virtualTour: '360° image gallery', dragTour: 'Drag to explore the image in 360°', close: 'Close', filters: 'Filters', propertyType: 'Property type', lot: 'Lot', farm: 'Farm', size: 'Size', minimum: 'Minimum', maximum: 'Maximum', province: 'Province', canton: 'County', parish: 'Parish', any: 'All', clearFilters: 'Clear filters', applyFilters: 'Apply filters', noResults: 'No properties match these filters.',
+    chatTitle: 'Amazonia Propiedades EC', chatStatus: 'Demo · Static responses', chatHello: 'Hello! What kind of property are you looking for?', chatHint: 'Automatic filters will be enabled in the final version.', chatPlaceholder: 'Type your question...', voice: 'Voice reading', voiceHint: 'Enable it and move the cursor over the content.', voiceOn: 'Reading enabled', voiceOff: 'Reading disabled', light: 'Light mode', dark: 'Dark mode', expand: 'Expand image', virtualTour: '360° image gallery', dragTour: 'Drag to explore the image in 360°', close: 'Close', filters: 'Filters', propertyType: 'Property type', lot: 'Lot', farm: 'Farm', size: 'Size', minimum: 'Minimum', maximum: 'Maximum', province: 'Province', canton: 'County', parish: 'Parish', any: 'All', clearFilters: 'Clear filters', applyFilters: 'Apply filters', noResults: 'No properties match these filters.',
   },
 };
 
@@ -106,7 +106,7 @@ function useLanguage() {
 }
 
 function Brand() {
-  return <a className="brand" href={pageUrl('/')} aria-label="AmazoniaPropiedades EC"><span className="brand-mark"><Trees size={22}/></span><span><strong>AMAZONIAPROPIEDADES</strong><small>EC</small></span></a>;
+  return <a className="brand" href={pageUrl('/')} aria-label="Amazonia Propiedades EC"><span className="brand-mark"><Trees size={22}/></span><span className="brand-wordmark"><strong>Amazonia</strong><small>Propiedades <em>EC</em></small></span></a>;
 }
 
 function Header({ t, lang, toggle, theme, toggleTheme }) {
@@ -120,7 +120,7 @@ function Header({ t, lang, toggle, theme, toggleTheme }) {
 }
 
 function Footer({ t }) {
-  return <footer><div className="container footer-main"><div className="footer-brand"><Brand/><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Una nueva forma de encontrar tu lugar.</p></div><div><strong>{t.nav.home}</strong><a href={pageUrl('/#nosotros')}>{t.nav.about}</a><a href={pageUrl('/propiedades')}>{t.nav.properties}</a></div><div><strong>{t.nav.success}</strong><a href={pageUrl('/casos-de-exito')}>{t.nav.success}</a><a href={pageUrl('/vende-con-nosotros')}>{t.nav.sell}</a></div><div><strong>AmazoniaPropiedades EC</strong><span><MapPin size={16}/> Macas, Morona Santiago</span><span><Phone size={16}/> +593 000 000 000</span></div></div><div className="container footer-bottom"><span>© 2026 AmazoniaPropiedades EC · Demo conceptual</span><span>Más que propiedades, un legado.</span></div></footer>;
+  return <footer><div className="container footer-main"><div className="footer-brand"><Brand/><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Una nueva forma de encontrar tu lugar.</p></div><div><strong>{t.nav.home}</strong><a href={pageUrl('/#nosotros')}>{t.nav.about}</a><a href={pageUrl('/propiedades')}>{t.nav.properties}</a></div><div><strong>{t.nav.success}</strong><a href={pageUrl('/casos-de-exito')}>{t.nav.success}</a><a href={pageUrl('/vende-con-nosotros')}>{t.nav.sell}</a></div><div><strong>Amazonia Propiedades EC</strong><span><MapPin size={16}/> Macas, Morona Santiago</span><span><Phone size={16}/> +593 000 000 000</span></div></div><div className="container footer-bottom"><span>© 2026 Amazonia Propiedades EC · Demo conceptual</span><span>Más que propiedades, un legado.</span></div></footer>;
 }
 
 function Assistants({ t, lang }) {
@@ -185,7 +185,7 @@ function PageShell({ children, language }) {
 
 function HomePage({ t }) {
   return <>
-    <section className="hero home-hero"><div className="hero-glow"/><div className="container hero-content"><div className="hero-copy"><span className="eyebrow"><span/>{t.heroKicker}</span><h1>{t.heroTitle}</h1><p>{t.heroText}</p><div className="hero-actions"><a className="button button-gold" href={pageUrl('/propiedades')}>{t.explore}<ArrowRight size={18}/></a><a className="text-link" href="#nosotros"><span className="play"><Play size={15} fill="currentColor"/></span>{t.story}</a></div><div className="hero-proof"><div><strong>+120</strong><span>{t.families}</span></div><i/><div><strong>8 años</strong><span>{t.years}</span></div></div></div><div className="hero-visual"><div className="hero-image-frame"><img src={asset('amazonia-banner.png')} alt="AmazoniaPropiedades EC"/></div><div className="floating-card"><span><ShieldCheck/></span><div><strong>{t.legal}</strong><small>Lorem ipsum dolor</small></div><Check/></div></div></div></section>
+    <section className="hero home-hero"><div className="hero-glow"/><div className="container hero-content"><div className="hero-copy"><span className="eyebrow"><span/>{t.heroKicker}</span><h1>{t.heroTitle}</h1><p>{t.heroText}</p><div className="hero-actions"><a className="button button-gold" href={pageUrl('/propiedades')}>{t.explore}<ArrowRight size={18}/></a><a className="text-link" href="#nosotros"><span className="play"><Play size={15} fill="currentColor"/></span>{t.story}</a></div><div className="hero-proof"><div><strong>+120</strong><span>{t.families}</span></div><i/><div><strong>8 años</strong><span>{t.years}</span></div></div></div><div className="hero-visual"><div className="hero-image-frame"><img src={asset('amazonia-banner.png')} alt="Amazonia Propiedades EC"/></div><div className="floating-card"><span><ShieldCheck/></span><div><strong>{t.legal}</strong><small>Lorem ipsum dolor</small></div><Check/></div></div></div></section>
     <section className="home-links"><div className="container home-link-grid"><a href={pageUrl('/propiedades')}><LandPlot/><span><small>01</small><strong>{t.nav.properties}</strong></span><ArrowRight/></a><a href={pageUrl('/casos-de-exito')}><Sparkles/><span><small>02</small><strong>{t.nav.success}</strong></span><ArrowRight/></a><a href={pageUrl('/vende-con-nosotros')}><CircleDollarSign/><span><small>03</small><strong>{t.nav.sell}</strong></span><ArrowRight/></a></div></section>
     <section id="nosotros" className="section about-section"><div className="container about-grid"><div className="about-collage"><div className="about-main"><img src={asset('casa-el-vergel.png')} alt="Propiedad en Macas"/></div><div className="about-small"><img src={asset('amazonia-banner.png')} alt="Morona Santiago"/></div><div className="experience-seal"><strong>8</strong><span>Años de<br/>experiencia</span></div></div><div className="about-copy"><span className="eyebrow dark"><span/>{t.aboutKicker}</span><h2>{t.aboutTitle}</h2><p className="lead">{t.aboutLead}</p><p>{t.aboutText}</p><div className="values"><div><span><ShieldCheck/></span><div><strong>{t.legal}</strong><small>Lorem ipsum dolor sit amet.</small></div></div><div><span><Trees/></span><div><strong>{t.earth}</strong><small>Lorem ipsum dolor sit amet.</small></div></div></div><a className="inline-link" href={pageUrl('/propiedades')}>{t.discover}<ArrowRight/></a></div></div></section>
     <ContactStrip t={t}/>
@@ -286,7 +286,7 @@ function PropertyMap({ t }) {
     const map = L.map(element.current, { scrollWheelZoom: false }).setView([-2.308,-78.1115], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
     const area = L.polygon(polygon, { color: '#09633f', weight: 3, fillColor: '#62a744', fillOpacity: .35 }).addTo(map);
-    area.bindPopup(`<strong>AmazoniaPropiedades EC</strong><br>${t.mapNote}`).openPopup();
+    area.bindPopup(`<strong>Amazonia Propiedades EC</strong><br>${t.mapNote}`).openPopup();
     map.fitBounds(area.getBounds(), { padding: [35,35] });
     return () => map.remove();
   }, [t.mapNote]);
@@ -340,7 +340,7 @@ function SellPage({ t }) {
 }
 
 function ContactStrip({ t }) {
-  return <section className="contact-section"><div className="container contact-card"><div><span className="eyebrow"><span/>AmazoniaPropiedades EC</span><h2>{t.contactTitle}</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div><div className="contact-actions"><a className="button button-whatsapp" href="https://wa.me/593000000000"><MessageCircle/>{t.whatsapp}</a><a href="tel:+593000000000"><Phone/>+593 000 000 000</a></div></div></section>;
+  return <section className="contact-section"><div className="container contact-card"><div><span className="eyebrow"><span/>Amazonia Propiedades EC</span><h2>{t.contactTitle}</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div><div className="contact-actions"><a className="button button-whatsapp" href="https://wa.me/593000000000"><MessageCircle/>{t.whatsapp}</a><a href="tel:+593000000000"><Phone/>+593 000 000 000</a></div></div></section>;
 }
 
 function App() {
