@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { createPortal } from 'react-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import amazoniaBanner from '../assets/amazonia-banner.png';
@@ -203,6 +204,7 @@ function VirtualTour({ property, t, compact = false }) {
   const [scene, setScene] = useState(0);
   const drag = useRef(null);
   const player = useRef(null);
+  const fullscreenTour = useRef(false);
   const scenes = [
     { src: property.image, label: 'Vista principal' },
     { src: asset('casa-el-vergel.png'), label: 'Exterior' },
@@ -212,14 +214,32 @@ function VirtualTour({ property, t, compact = false }) {
     if (!open) return;
     document.body.style.overflow = 'hidden';
     const handleKey = (event) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        drag.current = null;
+        setPlaying(false);
+        setOpen(false);
+      }
       if (event.key === 'ArrowLeft') setPosition(value => Math.max(0, value - 4));
       if (event.key === 'ArrowRight') setPosition(value => Math.min(100, value + 4));
       if (event.code === 'Space') { event.preventDefault(); setPlaying(value => !value); }
     };
-    window.addEventListener('keydown', handleKey);
-    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', handleKey); };
+    document.addEventListener('keydown', handleKey, true);
+    return () => { document.body.style.overflow = ''; document.removeEventListener('keydown', handleKey, true); };
   }, [open]);
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (document.fullscreenElement === player.current) fullscreenTour.current = true;
+      else if (fullscreenTour.current) {
+        fullscreenTour.current = false;
+        drag.current = null;
+        setPlaying(false);
+        setOpen(false);
+      }
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
   useEffect(() => {
     if (!open || !playing) return;
     const timer = window.setInterval(() => setPosition(value => value >= 100 ? 0 : value + .09), 40);
@@ -237,9 +257,19 @@ function VirtualTour({ property, t, compact = false }) {
   };
   const chooseScene = (index) => { setScene(index); setPosition(50); setPlaying(true); };
   const toggleFullscreen = () => document.fullscreenElement ? document.exitFullscreen?.() : player.current?.requestFullscreen?.();
+  const closeTour = () => {
+    drag.current = null;
+    setPlaying(false);
+    if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
+    setOpen(false);
+  };
+  const tourOverlay = open ? createPortal(
+    <div className="tour-player-backdrop" onPointerDown={(event) => event.target === event.currentTarget && closeTour()}><button className="tour-overlay-close" onClick={closeTour} aria-label={t.close}><X/></button><section ref={player} className="tour-player-modal" role="dialog" aria-modal="true" aria-label={t.virtualTour}><div className="tour-player-screen"><div className="tour-player-panorama" style={{backgroundImage: `url(${scenes[scene].src})`, backgroundPosition: `${position}% center`, backgroundSize: scenes[scene].src.includes('banner') ? 'auto 125%' : '165% auto'}} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={() => { drag.current = null; }} onPointerCancel={() => { drag.current = null; }}><div className="tour-player-top"><div><span><Rotate3D/></span><div><strong>{property.title}</strong><small><MapPin/>{property.location}</small></div></div><b>GALERÍA 360°</b></div><div className="tour-drag-hint"><Rotate3D/><span>{t.dragTour}</span></div>{!playing && <button className="tour-center-play" onClick={() => setPlaying(true)} aria-label="Reproducir galería"><Play fill="currentColor"/></button>}<div className="tour-hotspot"><i/><span>{scenes[scene].label}</span></div></div><div className="tour-player-controls"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pausar galería' : 'Reproducir galería'}>{playing ? <Pause fill="currentColor"/> : <Play fill="currentColor"/>}</button><div className="tour-progress"><i style={{width: `${position}%`}}/><span style={{left: `${position}%`}}/></div><span><Rotate3D/>360°</span><button onClick={toggleFullscreen} aria-label="Pantalla completa"><Maximize2/></button></div></div><div className="tour-scene-strip"><div><strong>{t.virtualTour}</strong><small>Selecciona una imagen panorámica</small></div><div>{scenes.map((item,index) => <button key={item.label} className={scene === index ? 'active' : ''} onClick={() => chooseScene(index)}><span><img src={item.src} alt=""/><i>{index + 1}</i></span><b>{item.label}</b></button>)}</div><span>{String(scene + 1).padStart(2,'0')} / {String(scenes.length).padStart(2,'0')}</span></div></section></div>,
+    document.body,
+  ) : null;
   return <>
     <button className={compact ? 'tour-card-button' : 'button tour-detail-button'} onClick={() => setOpen(true)}><Rotate3D/>{t.virtualTour}</button>
-    {open && <div className="tour-player-backdrop" onPointerDown={(event) => event.target === event.currentTarget && setOpen(false)}><button className="tour-overlay-close" onClick={() => setOpen(false)} aria-label={t.close}><X/></button><section ref={player} className="tour-player-modal" role="dialog" aria-modal="true" aria-label={t.virtualTour}><div className="tour-player-screen"><div className="tour-player-panorama" style={{backgroundImage: `url(${scenes[scene].src})`, backgroundPosition: `${position}% center`, backgroundSize: scenes[scene].src.includes('banner') ? 'auto 125%' : '165% auto'}} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={() => { drag.current = null; }} onPointerCancel={() => { drag.current = null; }}><div className="tour-player-top"><div><span><Rotate3D/></span><div><strong>{property.title}</strong><small><MapPin/>{property.location}</small></div></div><b>GALERÍA 360°</b></div><div className="tour-drag-hint"><Rotate3D/><span>{t.dragTour}</span></div>{!playing && <button className="tour-center-play" onClick={() => setPlaying(true)} aria-label="Reproducir galería"><Play fill="currentColor"/></button>}<div className="tour-hotspot"><i/><span>{scenes[scene].label}</span></div></div><div className="tour-player-controls"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pausar galería' : 'Reproducir galería'}>{playing ? <Pause fill="currentColor"/> : <Play fill="currentColor"/>}</button><div className="tour-progress"><i style={{width: `${position}%`}}/><span style={{left: `${position}%`}}/></div><span><Rotate3D/>360°</span><button onClick={toggleFullscreen} aria-label="Pantalla completa"><Maximize2/></button></div></div><div className="tour-scene-strip"><div><strong>{t.virtualTour}</strong><small>Selecciona una imagen panorámica</small></div><div>{scenes.map((item,index) => <button key={item.label} className={scene === index ? 'active' : ''} onClick={() => chooseScene(index)}><span><img src={item.src} alt=""/><i>{index + 1}</i></span><b>{item.label}</b></button>)}</div><span>{String(scene + 1).padStart(2,'0')} / {String(scenes.length).padStart(2,'0')}</span></div></section></div>}
+    {tourOverlay}
   </>;
 }
 
